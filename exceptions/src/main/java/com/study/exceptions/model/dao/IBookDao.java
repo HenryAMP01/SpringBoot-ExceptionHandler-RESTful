@@ -12,7 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IBookDao extends JpaRepository<Book, Long> {
 
-    @Query(value = "SELECT * FROM book b INNER JOIN book_author ba ON b.id = ba.book_id INNER JOIN author a ON ba.author_id = a.id WHERE a.id=:authorId", nativeQuery = true)
+    @Query(value = "SELECT b.id, b.code, b.name FROM book_author AS ba "
+    +"INNER JOIN book AS b ON ba.book_id = b.id "
+    +"INNER JOIN author AS a ON ba.author_id = a.id "
+    +"WHERE a.id=:authorId", nativeQuery = true)
     public List<Book> findByAuthorId(@Param("authorId") Long id);
+
 
 }
